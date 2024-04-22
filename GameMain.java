@@ -3,16 +3,23 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
+//representing the state of the game
+enum GameState {
+	Playing, Draw, Cross_won, Nought_won;
+}
 
 public class GameMain extends JPanel implements MouseListener{
 	//Constants for game 
 	// number of ROWS by COLS cell constants 
-	public static final int ROWS = 3;     
+	
+	// number of rows-----LK
+	public static final int ROWS = 3;   
+	//number of columns-----LK
 	public static final int COLS = 3;  
 	public static final String TITLE = "Tic Tac Toe";
-
-	//constants for dimensions used for drawing
+    //constants for dimensions used for drawing
 	//cell width and height
+	// cell size -----LK
 	public static final int CELL_SIZE = 100;
 	//drawing canvas
 	public static final int CANVAS_WIDTH = CELL_SIZE * COLS;
@@ -26,8 +33,9 @@ public class GameMain extends JPanel implements MouseListener{
 	// the game board 
 	private Board board;
 	 	 
-	//TODO: create the enumeration for the variable below (GameState currentState)
+	//TODO: create the enumeration for the variable below (GameState currentState)--- done
 	//HINT all of the states you require are shown in the code within GameMain
+	// curent state of the game ----LK
 	private GameState currentState; 
 	
 	// the current player
@@ -38,8 +46,11 @@ public class GameMain extends JPanel implements MouseListener{
 
 	/** Constructor to setup the UI and game components on the panel */
 	public GameMain() {   
+		//MouseListener to listen to mouse click event
+		this.addMouseListener(this);
 		
-		// TODO: This JPanel fires a MouseEvent on MouseClicked so add required event listener to 'this'.          
+		
+		// TODO: This JPanel fires a MouseEvent on MouseClicked so add required event listener to 'this'.---- done      
 	    
 	    
 		// Setup the status bar (JLabel) to display status message       
@@ -56,10 +67,12 @@ public class GameMain extends JPanel implements MouseListener{
 		setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT + 30));
 		
 		
-		// TODO: Create a new instance of the game "Board"class. HINT check the variables above for the correct name
-
+		// TODO: Create a new instance of the game "Board"class. HINT check the variables above for the correct name----done
+		board= new Board();
 		
-		//TODO: call the method to initialise the game board
+		//TODO: call the method to initialise the game board---done
+		initGame();
+		
 
 	}
 	
@@ -70,11 +83,13 @@ public class GameMain extends JPanel implements MouseListener{
 				//create a main window to contain the panel
 				JFrame frame = new JFrame(TITLE);
 				
-				//TODO: create the new GameMain panel and add it to the frame
+				//TODO: create the new GameMain panel and add it to the frame----done
+				GameMain gameMainPanel = new GameMain ();
+				frame.add(gameMainPanel);
+				
 						
-				
-				
-				//TODO: set the default close operation of the frame to exit_on_close
+				//TODO: set the default close operation of the frame to exit_on_close---- done
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		            
 				
 				frame.pack();             
@@ -95,16 +110,20 @@ public class GameMain extends JPanel implements MouseListener{
 		if (currentState == GameState.Playing) {          
 			statusBar.setForeground(Color.BLACK);          
 			if (currentPlayer == Player.Cross) {   
-			
-				//TODO: use the status bar to display the message "X"'s Turn
+				// Display "X Turn" in the status bar
+				statusBar.setText("X's Turn");
+				
+			//TODO: use the status bar to display the message "X"'s Turn----- done
 
 				
 			} else {    
-				
-				//TODO: use the status bar to display the message "O"'s Turn
-
-				
+				// Display "O Turn" in the status bar
+				statusBar.setText("O's Turn");
+				//TODO: use the status bar to display the message "O"'s Turn----- done
+		
+						
 			}       
+		
 			} else if (currentState == GameState.Draw) {          
 				statusBar.setForeground(Color.RED);          
 				statusBar.setText("It's a Draw! Click to play again.");       
@@ -120,6 +139,8 @@ public class GameMain extends JPanel implements MouseListener{
 	
 	  /** Initialise the game-board contents and the current status of GameState and Player) */
 		public void initGame() {
+			//Reset all cells t empty and game state to playing
+			
 			for (int row = 0; row < ROWS; ++row) {          
 				for (int col = 0; col < COLS; ++col) {  
 					// all cells empty
@@ -139,14 +160,22 @@ public class GameMain extends JPanel implements MouseListener{
 		public void updateGame(Player thePlayer, int row, int col) {
 			//check for win after play
 			if(board.hasWon(thePlayer, row, col)) {
+				if (thePlayer == Player.Cross) {
+					currentState = GameState.Cross_won; 
+					
+				} else if  (thePlayer == Player.Nought) {
+					currentState = GameState.Nought_won;
+				}
 				
-				// TODO: check which player has won and update the currentstate to the appropriate gamestate for the winner
+				// TODO: check which player has won and update the currentstate to the appropriate gamestate for the winner---done
 
 				
 			} else 
 				if (board.isDraw ()) {
+					//check if the game is draw  ---LK
+					currentState = GameState.Draw;
 					
-				// TODO: set the currentstate to the draw gamestate
+				// TODO: set the currentstate to the draw gamestate ---done
 
 			}
 			//otherwise no change to current state of playing
@@ -164,7 +193,9 @@ public class GameMain extends JPanel implements MouseListener{
 		int mouseY = e.getY();             
 		// Get the row and column clicked             
 		int rowSelected = mouseY / CELL_SIZE;             
-		int colSelected = mouseX / CELL_SIZE;               			
+		int colSelected = mouseX / CELL_SIZE;  
+		
+		//If the game is currently playing---LK
 		if (currentState == GameState.Playing) {                
 			if (rowSelected >= 0 && rowSelected < ROWS && colSelected >= 0 && colSelected < COLS && board.cells[rowSelected][colSelected].content == Player.Empty) {
 				// move  
@@ -184,7 +215,9 @@ public class GameMain extends JPanel implements MouseListener{
 			initGame();            
 		}   
 		
-		//TODO: redraw the graphics on the UI          
+		//TODO: redraw the graphics on the UI    
+		repaint();
+		
            
 	}
 		

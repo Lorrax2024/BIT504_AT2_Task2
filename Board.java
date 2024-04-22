@@ -12,7 +12,10 @@ public class Board {
 	/** Constructor to create the game board */
 	public Board() {
 		
-	 //TODO: initialise the cells array using ROWS and COLS constants 
+		//Initialize the cell arrays using rows and cols ----LK
+		 this.cells = new Cell[GameMain.ROWS][GameMain.COLS];
+		
+	 //TODO: initialise the cells array using ROWS and COLS constants ----Done
 
 		
 		for (int row = 0; row < GameMain.ROWS; ++row) {
@@ -25,12 +28,22 @@ public class Board {
 
 	 /** Return true if it is a draw (i.e., no more EMPTY cells) */ 
 	public boolean isDraw() {
+		//check each cell in the board-----LK (do i have to create an EMPTY enum?
+		for (int row = 0; row < GameMain.ROWS; ++row) {
+			for (int col = 0; col < GameMain.COLS; ++col) {
+				//if any cell is empty it's not a draw
+				if (cells[row][col].content == Player.Empty) {
+					return false;
+				}
+			}
+		}
 		 
-		// TODO: Check whether the game has ended in a draw. 
-		// Hint: Use a nested loop (see the constructor for an example). Check whether any of the cells content in the board grid are Player.Empty. If they are, it is not a draw.
+		// TODO: Check whether the game has ended in a draw. ----done
+  		// Hint: Use a nested loop (see the constructor for an example). Check whether any of the cells content in the board grid are Player.Empty. If they are, it is not a draw.
 		// Hint: Return false if it is not a draw, return true if there are no empty positions left
 		   
-		
+		// if all cells are filled and no winner, return true to indicate draw---LK
+		return true;
 
 		
 	}
@@ -38,20 +51,38 @@ public class Board {
 	/** Return true if the current player "thePlayer" has won after making their move  */
 	public boolean hasWon(Player thePlayer, int playerRow, int playerCol) {
 		 // check if player has 3-in-that-row
+		//check row ---LK
 		if(cells[playerRow][0].content == thePlayer && cells[playerRow][1].content == thePlayer && cells[playerRow][2].content == thePlayer )
 			return true; 
 		
 		 // TODO: Check if the player has 3 in the playerCol.
 		 // Hint: Use the row code above as a starting point, remember that it goes cells[row][column] 
 		
+		//Check if player has 3-in-that-row
+		//check column---LK
+		if (cells[playerCol][0].content == thePlayer && cells[playerCol][1].content == thePlayer && cells[playerCol][2].content == thePlayer )
+			return true;
+		
 		
 		
 		 // 3-in-the-diagonal
+		// check if the payer won by having 3 in a diagonal --- top-left to bottom-righ  ---LK
 		if( cells[0][0].content == thePlayer && cells[1][1].content == thePlayer && cells[2][2].content == thePlayer)
 			return true;
-		 
-		
-		// TODO: Check the diagonal in the other direction
+		// check if the payer won by having 3 in a diagonal --- top-right to bottom-left  ---LK
+		if ( cells[0][2].content == thePlayer && cells[1][1].content == thePlayer && cells[2][0].content == thePlayer)
+			return true;
+		// check if the player won by having 3 in a diagonal --- top-left to bottom-left ---LK 
+		if (cells[0][0].content == thePlayer && cells[1][0].content == thePlayer && cells[2][0].content == thePlayer)
+		    return true;
+		// check if the player won by having 3 in a diagonal --- top-right to bottom-right---LK
+		if (cells[0][2].content == thePlayer && cells[1][2].content == thePlayer && cells[2][2].content == thePlayer)
+		    return true;
+		// check if the player won by having 3 in a diagonal --- middle left to middle right --LK
+		if (cells[0][1].content == thePlayer && cells[1][1].content == thePlayer && cells[2][1].content == thePlayer)
+		    return true;
+
+		// TODO: Check the diagonal in the other direction---donee
 		
 
 		
