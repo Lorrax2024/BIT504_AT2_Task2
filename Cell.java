@@ -16,12 +16,6 @@ public class Cell {
 		
 		// Initialize the cell content to EMPTY
 		clear();
-		
-		// TODO: Initialise the variables row, col -------done-----
-
-		
-		
-		//TODO: call the method that sets the cell content to EMPTY----done---
 		 
 	}
 	
@@ -32,23 +26,23 @@ public class Cell {
 		Graphics2D graphic2D = (Graphics2D) g;
 		graphic2D.setStroke(new BasicStroke(GameMain.SYMBOL_STROKE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		
-		//Calculate the top-left corner of the cell ------LK
+		//Calculate the top-left corner of the cell 
 		//draw the symbol in the position
 		int x1 = col * GameMain.CELL_SIZE + GameMain.CELL_PADDING;
 		int y1 = row * GameMain.CELL_SIZE + GameMain.CELL_PADDING;
 		
-		//Draw a symbol based on the cell content ------LK
+		//Draw a symbol based on the cell content 
 		if (content == Player.Cross) {
 			graphic2D.setColor(Color.RED);
 			
-			//Calculate the bottom-right of the cell----LK
+			//Calculate the bottom-right of the cell
 			int x2 = (col + 1) * GameMain.CELL_SIZE - GameMain.CELL_PADDING;
 			int y2 = (row + 1) * GameMain.CELL_SIZE - GameMain.CELL_PADDING;
 			
-			//Draw a cross line in the cell ----LK
+			//Draw a cross line in the cell
 			graphic2D.drawLine(x1, y1, x2, y2);
 			graphic2D.drawLine(x2, y1, x1, y2);
-		}else if (content == Player.Nought) {
+		}  else if (content == Player.Nought) {
 			graphic2D.setColor(Color.BLUE);
 			
 			//Draw a circle (nought) in the cell
@@ -58,11 +52,7 @@ public class Cell {
 	
 	/** Set this cell's content to EMPTY */
 	public void clear() {
-		content =Player.Empty;
-		
-		// TODO: Set the value of content to Empty (Remember this is an enum) ------Done
-
-		
+		content = Player.Empty;
 	}
 		
 }
